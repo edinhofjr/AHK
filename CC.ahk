@@ -37,7 +37,7 @@ N50PH := main.AddText('x+10 w50',empty)
 
 N100 := main.Add("Edit", "x100 y219 w50 h20 vNota100 +Number",0)
 N100.OnEvent('change', submit)
-N100PH := main.AddText('x+10 w50',empty)
+N100PH := main.AddText('x+10 w60',empty)
 
 main.Add("Text", "x232 y88 w50 h20" , "MOEDAS:")
 main.Add("Text", "x282 y89 w50 h20 +Center", "QTD")
@@ -50,26 +50,26 @@ main.Add("Text", "x232 y199 w50 h20" , "R$ 1`,00")
 
 M005 := main.Add("Edit", "x282 y119 w50 h20 vMoeda005 +Number",0)
 M005.OnEvent('change',submit)
-M005PH := main.AddText('x+10 w50',empty)
+M005PH := main.AddText('x+10 w60',empty)
 
 M010 := main.Add("Edit", "x282 y139 w50 h20 vMoeda010 +Number",0)
 M010.OnEvent('change',submit)
-M010PH := main.AddText('x+10 w50',empty)
+M010PH := main.AddText('x+10 w60',empty)
 
 M025 := main.Add("Edit", "x282 y159 w50 h20 vMoeda025 +Number",0)
 M025.OnEvent('Change',submit)
-M025PH := main.AddText('x+10 w50', empty)
+M025PH := main.AddText('x+10 w60', empty)
 
 M050 := main.Add("Edit", "x282 y179 w50 h20 vMoeda050 +Number",0)
 M050.OnEvent('change', submit)
-M050PH := main.AddText('x+10 w50', empty)
+M050PH := main.AddText('x+10 w60', empty)
 
 M1 := main.Add("Edit", "x282 y199 w50 h20 vMoeda1 +Number ",0)
 M1.OnEvent('Change',submit)
-M1PH := main.AddText('x+10 w50',empty)
+M1PH := main.AddText('x+10 w60',empty)
 
 TOTALGUI := main.AddText('x232 y230 w120 h20',"TOTAL:")
-RES := main.AddText("w50 x+-10",empty)
+RES := main.AddText("x300 y233 w60",empty)
 TOTALGUI.SetFont("s12 cREd","Verdana")
 
 main.AddButton("x305 w75 h30","SALVAR").OnEvent('Click',Log)
@@ -139,4 +139,3 @@ Format2f(value) {
 Format2fsemR(value) {
     return Format("{:.2f}",value)
 }
-
