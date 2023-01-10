@@ -1,7 +1,7 @@
 #SingleInstance Force
 
 main := Gui()
-main.Opt("AlwaysOnTop Border")
+main.Title := "Contador de Caixa"
 main.Add('text', "x140 y50 +Center" , "CONTAGEM DO CAIXA")
 main.Add("Text", "x40 y89 w60 h20" , "NOTAS")
 main.Add("text", "x100 y89 w50 h20", "QTD")
@@ -69,13 +69,22 @@ M1.OnEvent('Change',submit)
 M1PH := main.AddText('x+10 w60',empty)
 
 TOTALGUI := main.AddText('x232 y230 w120 h20',"TOTAL:")
-RES := main.AddText("x300 y233 w60",empty)
+emCaixaGUI := main.AddText('y+10 w120 h20',"EM CAIXA:")
+emCaixaValueGUI := main.AddText('x330 y263 w120', empty)
+RES := main.AddText("x330 y233 w60",empty)
+
+
 TOTALGUI.SetFont("s12 cREd","Verdana")
+emCaixaGUI.SetFont("s12 cREd","Verdana")
+
+
 
 main.AddButton("x305 w75 h30","SALVAR").OnEvent('Click',Log)
 main.Show("w400 h400")
 
 main.AddButton("w75 h30","IMPRIMIR").OnEvent("Click",print)
+
+emCaixa := 0
 submit(*) {
 
     getMain := main.Submit(false)
@@ -96,7 +105,9 @@ submit(*) {
     for i, value in input {
         if value != ""{
         x += value * times[i]
+        emCaixa := x - 200
         RES.Text := Format2f(x)
+        emCaixaValueGUI.Text := format2f(emCaixa)
         }
     }
 }
@@ -105,7 +116,7 @@ Log(*) {
     getMain := main.Submit(false)
     final:=0
     input := [getMain.nota2,getMain.nota5,getMain.nota10,getMain.nota20,getMain.nota50,getMain.nota100,getMain.moeda005,getMain.moeda010,getMain.moeda025,getMain.moeda050,getMain.moeda1]
-    times := [2,5,10,20,50,100,0.05,0.1,0.25,0.5,1]
+    times := [2,5,10,20,50,100,Format("{:.2f}",.05),Format("{:.2f}",.1),.25,.5,1]
     output := [N2PH,N5PH,N10PH,N20PH,N50PH,N100PH,M005PH,M010PH,M025PH,M050PH,M1PH]
 
     DirCreate(A_Desktop "\LOG\" A_Year "\" A_MM)
@@ -115,12 +126,14 @@ Log(*) {
     ;text
 
         for i, value in input {
-            text := Format("{:-7}" ,Format2f(value)) "x "  Format("{:-6}",format2fsemr(times[i])) "=" Format2f(value*times[i]) "`n"
+            text := Format("{:-5}" ,Format2fsemR(value)) "x "  Format("{:-4}",times[i]) "=" Format2fsemR(value*times[i]) "`n"
             FileAppend(text,FilePathTxt,)
         }
 
-        text := Format("{:-16}","TOTAL:") res.Text "`n"
+        text := Format("{:-12}","TOTAL:") res.Text "`n"
         FileAppend(text,FilePathTxt,)
+        text2 := Format("{:-12}","EM CAIXA:") Format2f(emCaixa) "`n"
+        FileAppend(text2,FilePathTxt,)
     global LogWasCreated := 1
 }
 
@@ -128,6 +141,9 @@ print(*) {
     if (LogWasCreated = 1) {
         FilePathTxt := (A_Desktop "\LOG\" A_Year "\" A_MM "\" A_DD ".txt")
         Run 'notepad /p' FilePathTxt
+    }
+    else {
+        MsgBox("Salve antes de imprimir","ERRO",)
     }
 
 }
