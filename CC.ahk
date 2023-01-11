@@ -101,13 +101,12 @@ submit(*) {
             output[i].Text := Format2f(0)
         }
     }
-    x:=0
+    global x:=0
     for i, value in input {
         if value != ""{
         x += value * times[i]
-        emCaixa := x - 200
         RES.Text := Format2f(x)
-        emCaixaValueGUI.Text := format2f(emCaixa)
+        emCaixaValueGUI.Text := format2f(x-200)
         }
     }
 }
@@ -126,13 +125,13 @@ Log(*) {
     ;text
 
         for i, value in input {
-            text := Format("{:-5}" ,Format2fsemR(value)) "x "  Format("{:-4}",times[i]) "=" Format2fsemR(value*times[i]) "`n"
+            text := Format("{:-6}" ,Format2fsemR(times[i])) "x "  Format("{:-3}",value) "=" Format2fsemR(value*times[i]) "`n"
             FileAppend(text,FilePathTxt,)
         }
 
-        text := Format("{:-12}","TOTAL:") res.Text "`n"
+        text := Format("{:-10}","TOTAL:") res.Text "`n"
         FileAppend(text,FilePathTxt,)
-        text2 := Format("{:-12}","EM CAIXA:") Format2f(emCaixa) "`n"
+        text2 := Format("{:-10}","EM CAIXA:") Format2f(x-200) "`n"
         FileAppend(text2,FilePathTxt,)
     global LogWasCreated := 1
 }
